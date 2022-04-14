@@ -25,9 +25,11 @@ def main():
     config_args(args)
 
     if args.order is None:
-        print(value_to_string(args, weather_dict, r), end='')  # regular output
+        ret = value_to_string(args, weather_dict, r)
+        return ret
     else:
-        print(value_to_string_order(args, weather_dict, r, args.order), end='')  # order sensitive output
+        ret = value_to_string_order(args, weather_dict, r, args.order)
+        return ret
 
 
 def make_weather_dict(url, soup):
@@ -324,4 +326,5 @@ def bf_to_ms(bf_int):
 
 
 if __name__ == "__main__":
-    main()
+    ret = main()
+    print(ret, end='')
