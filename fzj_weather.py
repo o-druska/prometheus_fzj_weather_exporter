@@ -10,13 +10,17 @@ from bs4 import BeautifulSoup
 
 # Python module to execute
 
-def main():
+def main(machine_read=False):
     url = "https://www.fz-juelich.de/gs/DE/UeberUns/Organisation/S-U/Meteorologie/wetter/wd402_node.html"
 
     r = requests.get(url)
     soup = BeautifulSoup(r.text, 'html.parser')
 
     args = parseargs()
+
+    # makes it possible to have a better parse-able output when calling from another script
+    if machine_read:
+        args.Human = True
 
     weather_dict = make_weather_dict(url, soup)  # {header: data}
 
