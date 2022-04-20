@@ -11,14 +11,16 @@ from bs4 import BeautifulSoup
 # Python module to execute
 
 def main(machine_read=False):
-    url = "https://www.fz-juelich.de/gs/DE/UeberUns/Organisation/S-U/Meteorologie/wetter/wd402_node.html"
+    url = "https://www.fz-juelich.de/gs/DE/UeberUns" \
+          "/Organisation/S-U/Meteorologie/wetter/wd402_node.html"
 
     r = requests.get(url)
     soup = BeautifulSoup(r.text, 'html.parser')
 
     args = parseargs()
 
-    # makes it possible to have a better parse-able output when calling from another script
+    # makes it possible to have a better parse-able output
+    # when calling from another script
     if machine_read:
         args.Human = True
 
@@ -60,22 +62,30 @@ def make_weather_dict(url, soup):
 
 def parseargs():
     parser = argparse.ArgumentParser(
-        description='This program´s purpose is to retrieve meteorological data from FZJ internal weather station.\n'
-                    'The usage of arguments specifies the given output (view below).\n'
-                    '-H makes output less humanly readable; i.e. for easier usage in data administration.\n'
-                    'If no arguments are specified, a default output is given.\n'
+        description='This program´s purpose is to retrieve meteorological '
+                    'data from FZJ internal weather station.\n'
+                    'The usage of arguments specifies '
+                    'the given output (view below).\n'
+                    '-H makes output less humanly readable; '
+                    'i.e. for easier usage in data administration.\n'
+                    'If no arguments are specified, '
+                    'a default output is given.\n'
                     'Default output is all values.\n'
                     'Output order can be specified with the -o option,'
-                    'by appending a string consisting of the data abbreviations;'
+                    'by appending a string consisting of '
+                    'the data abbreviations;'
                     'i.e. `-o pt` for air pressure, then temperature.\n'
                     'Beaufort to m/s conversion: v = 0.836 * (Bf^(3/2))\n'
-                    'All values but wind speed in km/h and m/s are parsed directly from the website.\n'
-                    'Wind speed in km/h and m/s may contain conversion errors due to Bf to m/s conversion.')
+                    'All values but wind speed in km/h and m/s '
+                    'are parsed directly from the website.\n'
+                    'Wind speed in km/h and m/s may contain conversion errors '
+                    'due to Bf to m/s conversion.')
 
     meta_group = parser.add_argument_group()
     data_group = parser.add_argument_group()
 
-    # meta_group consists of arguments, which toggle meta information about output
+    # meta_group consists of arguments,
+    # which toggle meta information about output
     meta_group.add_argument(
         '-b', '--debug',
         action='store_true',
@@ -85,19 +95,22 @@ def parseargs():
     meta_group.add_argument(
         '-H', '--Human',
         action='store_true',
-        help='output is less humanly readable; just prints numbers w/o any measures/units; '
+        help='output is less humanly readable; '
+             'just prints numbers w/o any measures/units; '
              'better suited for script piping',
         default=False)
     meta_group.add_argument(
         '-i', '--inverse',
-        help='inverts the boolean values of all data arguments before evaluation of said arguments is done; '
+        help='inverts the boolean values of all data arguments '
+             'before evaluation of said arguments is done; '
              'must be provided with a boolean value',
         default=False)
     meta_group.add_argument(
         '-o', '--order',
         help='modifies the order in which the data is printed;'
              'must be followed by the abbreviations for the data points;'
-             'i.e.: `tpud` for temperature, air pressure, humidity and wind direction; in that order.',
+             'i.e.: `tpud` for temperature, air pressure, '
+             'humidity and wind direction; in that order.',
         action='store',
         metavar='order_string',
 
@@ -149,7 +162,8 @@ def value_to_string(args, weather_dict, request):  # returns string
     # debug output; returns nothing but that
     if args.debug:
         print(request.status_code)  # prints server response
-        weather_printout += (weather_dict['date']).replace("Aktuelle Messwerte vom ", "")  # temp solution
+        weather_printout += (weather_dict['date'])\
+            .replace("Aktuelle Messwerte vom ", "")  # temp solution
         weather_printout += "\n"
         weather_printout += (weather_dict['source']) + "\n"
         weather_printout += str((weather_dict.keys())) + "\n"
@@ -162,33 +176,45 @@ def value_to_string(args, weather_dict, request):  # returns string
     # specified output (quiet/verbose)
     if args.temperature:
         if args.Human:
-            weather_printout += (weather_dict['Lufttemperatur'].replace(' °C', '')) + "\n"
+            weather_printout += \
+                (weather_dict['Lufttemperatur'].replace(' °C', '')) + "\n"
         else:
-            weather_printout += "Lufttemperatur: " + (weather_dict['Lufttemperatur']) + "\n"
+            weather_printout += \
+                "Lufttemperatur: " + (weather_dict['Lufttemperatur']) + "\n"
 
     if args.airpressure:
         if args.Human:
-            weather_printout += (weather_dict['Luftdruck (92 m ü.N.N.)'].replace(' hPa', '')) + "\n"
+            weather_printout += \
+                (weather_dict['Luftdruck (92 m ü.N.N.)']
+                 .replace(' hPa', '')) + "\n"
         else:
-            weather_printout += "Luftdruck (92 m ü.N.N.): " + (weather_dict['Luftdruck (92 m ü.N.N.)']) + "\n"
+            weather_printout += \
+                "Luftdruck (92 m ü.N.N.): " + \
+                (weather_dict['Luftdruck (92 m ü.N.N.)']) + "\n"
 
     if args.humidity:
         if args.Human:
-            weather_printout += (weather_dict['relative Feuchte'].replace(' %', '')) + "\n"
+            weather_printout += \
+                (weather_dict['relative Feuchte'].replace(' %', '')) + "\n"
         else:
-            weather_printout += "Luftfeuchtigkeit: " + (weather_dict['relative Feuchte']) + "\n"
+            weather_printout += \
+                "Luftfeuchtigkeit: " + (weather_dict['relative Feuchte']) + "\n"
 
     if args.power:
         if args.Human:
-            weather_printout += (weather_dict['Windstärke'].replace(' Bf', '')) + "\n"
+            weather_printout += \
+                (weather_dict['Windstärke'].replace(' Bf', '')) + "\n"
         else:
-            weather_printout += "Windstaerke Bf: " + (weather_dict['Windstärke']) + "\n"
+            weather_printout += \
+                "Windstaerke Bf: " + (weather_dict['Windstärke']) + "\n"
 
     if args.direction:
         if args.Human:
-            weather_printout += (weather_dict['Windrichtung'].replace(' Grad', '')) + "\n"
+            weather_printout += \
+                (weather_dict['Windrichtung'].replace(' Grad', '')) + "\n"
         else:
-            weather_printout += "Windrichtung: " + (weather_dict['Windrichtung']) + "\n"
+            weather_printout += \
+                "Windrichtung: " + (weather_dict['Windrichtung']) + "\n"
 
     if args.velocity:
         if args.Human:
@@ -224,7 +250,7 @@ def value_to_string(args, weather_dict, request):  # returns string
 
 
 # data output in order of command line arguments
-def value_to_string_order(args, weather_dict, request, order_str):  # returns string
+def value_to_string_order(args, weather_dict, request, order_str):
     weather_printout = ""
 
     # specified output (quiet/verbose)
@@ -232,34 +258,51 @@ def value_to_string_order(args, weather_dict, request, order_str):  # returns st
         if order_str[i] == 't':
             if args.temperature:
                 if args.Human:
-                    weather_printout += (weather_dict['Lufttemperatur'].replace(' °C', '')) + "\n"
+                    weather_printout += \
+                        (weather_dict['Lufttemperatur']
+                         .replace(' °C', '')) + "\n"
                 else:
-                    weather_printout += "Lufttemperatur: " + (weather_dict['Lufttemperatur']) + "\n"
+                    weather_printout += \
+                        "Lufttemperatur: " + \
+                        (weather_dict['Lufttemperatur']) + "\n"
         elif order_str[i] == 'p':
             if args.airpressure:
                 if args.Human:
-                    weather_printout += (weather_dict['Luftdruck (92 m ü.N.N.)'].replace(' hPa', '')) + "\n"
+                    weather_printout += \
+                        (weather_dict['Luftdruck (92 m ü.N.N.)']
+                         .replace(' hPa', '')) + "\n"
                 else:
                     weather_printout += "Luftdruck (92 m ü.N.N.): " + (
                         weather_dict['Luftdruck (92 m ü.N.N.)']) + "\n"
         elif order_str[i] == 'u':
             if args.humidity:
                 if args.Human:
-                    weather_printout += (weather_dict['relative Feuchte'].replace(' %', '')) + "\n"
+                    weather_printout += \
+                        (weather_dict['relative Feuchte'].replace(' %', '')) + \
+                        "\n"
                 else:
-                    weather_printout += "Luftfeuchtigkeit: " + (weather_dict['relative Feuchte']) + "\n"
+                    weather_printout += \
+                        "Luftfeuchtigkeit: " + \
+                        (weather_dict['relative Feuchte']) + "\n"
         elif order_str[i] == 'w':
             if args.power:
                 if args.Human:
-                    weather_printout += (weather_dict['Windstärke'].replace(' Bf', '')) + "\n"
+                    weather_printout += \
+                        (weather_dict['Windstärke'].replace(' Bf', '')) + \
+                        "\n"
                 else:
-                    weather_printout += "Windstaerke Bf: " + (weather_dict['Windstärke']) + "\n"
+                    weather_printout += \
+                        "Windstaerke Bf: " + (weather_dict['Windstärke']) + \
+                        "\n"
         elif order_str[i] == 'd':
             if args.direction:
                 if args.Human:
-                    weather_printout += (weather_dict['Windrichtung'].replace(' Grad', '')) + "\n"
+                    weather_printout += \
+                        (weather_dict['Windrichtung'].replace(' Grad', '')) + \
+                        "\n"
                 else:
-                    weather_printout += "Windrichtung: " + (weather_dict['Windrichtung']) + "\n"
+                    weather_printout += \
+                        "Windrichtung: " + (weather_dict['Windrichtung']) + "\n"
         elif order_str[i] == 'v':
             if args.velocity:
                 if args.Human:
