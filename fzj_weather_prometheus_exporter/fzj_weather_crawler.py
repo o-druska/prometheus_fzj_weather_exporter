@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from dataclasses import dataclass
-from fzj_weather import main as get_weather_data
+from fzj_weather_prometheus_exporter import fzj_weather
 
 
 @dataclass
@@ -18,7 +18,8 @@ class Weather:
 def fzj_weather_crawler():
     """ scrapes data from the FZJ weather site via the fzj_weather.py script
         and returns a dataclass object containing the information """
-    crawled_weather_data = get_weather_data(machine_read=True).splitlines()
+    crawled_weather_data = fzj_weather.get_weather_data(
+        machine_read=True).splitlines()
     weather_return = Weather(
         temperature=crawled_weather_data[0],
         air_pressure=crawled_weather_data[1],
