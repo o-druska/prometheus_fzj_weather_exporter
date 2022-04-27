@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 
 # Python module to execute
 
-def main(machine_read=False):
+def get_weather_data(machine_read=False):
     url = "https://www.fz-juelich.de/gs/DE/UeberUns" \
           "/Organisation/S-U/Meteorologie/wetter/wd402_node.html"
 
@@ -373,5 +373,5 @@ def bf_to_ms(bf_int):
 
 
 if __name__ == "__main__":
-    ret = main()
+    ret = get_weather_data()
     print(ret, end='')
