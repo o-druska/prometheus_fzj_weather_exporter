@@ -9,7 +9,7 @@ setup(
     author='Oskar Druska',
     author_email='o.druska@fz-juelich.de',
     packages=find_packages(),
-    license=,
+    license='ISC',
     install_requires=[
         'requests',
         'BeautifulSoup4'

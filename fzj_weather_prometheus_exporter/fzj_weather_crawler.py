@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# This file is licensed under the ISC license.
+# Oskar Druska 2022
+# For further information look up LICENSE.txt
 
 from dataclasses import dataclass
 from fzj_weather_prometheus_exporter import fzj_weather

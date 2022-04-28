@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# This file is licensed under the ISC license.
+# Oskar Druska 2022
+# For further information look up LICENSE.txt
+
 # exporter entry point
 
 # usage:    > python3 main.py -p :9840
