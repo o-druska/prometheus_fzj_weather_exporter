@@ -6,6 +6,7 @@
 # This script parses weather data from an FZJ inside website
 
 import requests
+import re
 from bs4 import BeautifulSoup
 
 
@@ -20,16 +21,7 @@ def get_weather_data():
 
     weather_dict = make_weather_dict(url, soup)  # {header: data}
 
-    # configures arg-dependent states of other arguments
-    # (such as --inverse in inverts every args boolean status)
-    config_args(args)
-
-    if args.order is None:
-        ret = value_to_string(args, weather_dict, r)
-        return ret
-    else:
-        ret = value_to_string_order(args, weather_dict, r, args.order)
-        return ret
+    return weather_dict
 
 
 def make_weather_dict(url, soup):
@@ -39,6 +31,9 @@ def make_weather_dict(url, soup):
     # Creates a dictionary with headers as keys and data as values
     # (i.e. Luftdruck: 1016.6 hPa).
     # `.replace(u'\xa0', u' ')` replaces parsing errors with whitespaces
+    # `re.sub('[^0-9 , .]', '', weather_td[1].get_text(strip=True)` strips
+    # all non-numeric characters from the string
+
     weather_data = {
         "source": url,
         "title": soup.title.get_text(strip=True),
@@ -49,7 +44,7 @@ def make_weather_dict(url, soup):
         weather_td = row.find_all("td")  # td, table data
 
         weather_data[weather_td[0].get_text(strip=True).replace(u'\xa0', u' ')] \
-            = weather_td[1].get_text(strip=True).replace(u'\xa0', u' ')
+            = re.sub('[^0-9 , .]', '', weather_td[1].get_text(strip=True))
 
     return weather_data
 

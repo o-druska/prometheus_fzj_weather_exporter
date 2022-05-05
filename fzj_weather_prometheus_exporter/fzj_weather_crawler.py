@@ -19,8 +19,8 @@ class Weather:
 def fzj_weather_crawler():
     """ scrapes data from the FZJ weather site via the fzj_weather.py script
         and returns a dataclass object containing the information """
-    crawled_weather_data = fzj_weather.get_weather_data(
-        machine_read=True).splitlines()
+    crawled_weather_data = fzj_weather.get_weather_data()
+
     weather_return = Weather(
         temperature=crawled_weather_data['Lufttemperatur'],
         air_pressure=crawled_weather_data['Luftdruck (92 m ü.N.N.)'],
