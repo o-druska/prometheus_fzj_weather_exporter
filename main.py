@@ -5,7 +5,7 @@
 
 # exporter entry point
 
-# usage:    > python3 main.py -p :9840
+# usage:    > python3 main.py --port :9840
 # test:     > curl 127.0.0.1:9840
 # (test in a different console or start in background)
 # expected output (similar to):
@@ -21,14 +21,7 @@ from fzj_weather_prometheus_exporter import exporter_file
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description='Set up the Prometheus exporter (connection ports, etc.)')
-    parser.add_argument(
-        '-p', '--port',
-        dest='port',
-        default=9840,
-        help='Port to listen on')
-    args = parser.parse_args()
+    args = get_parsed_args()
 
     REGISTRY.register(exporter_file.FZJWeatherExporter())
     start_http_server(args.port)
@@ -36,6 +29,19 @@ def main():
     # keep the thing going indefinitely
     while True:
         time.sleep(1)
+
+
+def get_parsed_args():
+    parser = argparse.ArgumentParser(
+        description='Set up the Prometheus exporter (connection ports)')
+    parser.add_argument(
+        '-p', '--port',
+        type=int,
+        dest='port',
+        default=9840,
+        help='Port to run the script on')
+
+    return parser.parse_args()
 
 
 if __name__ == '__main__':
