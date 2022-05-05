@@ -47,15 +47,3 @@ class FZJWeatherExporter:
             documentation='wind direction in degree')
         g.add_metric([], weather.wind_direction)
         yield g
-
-        g = GaugeMetricFamily(
-            name='fzj_weather_velocity_meters_per_second',
-            documentation='wind velocity in meters per second')
-        g.add_metric([], weather.velocity_ms)
-        yield g
-
-        g = GaugeMetricFamily(
-            name='fzj_weather_velocity_kilometers_per_hour',
-            documentation='wind velocity in kilometers per hour')
-        g.add_metric([], weather.velocity_kmh)
-        yield g

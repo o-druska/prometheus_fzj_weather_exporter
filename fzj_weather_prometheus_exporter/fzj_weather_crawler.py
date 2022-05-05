@@ -14,8 +14,6 @@ class Weather:
     humidity: int  # percent
     wind_power: int  # beaufort
     wind_direction: int  # degree
-    velocity_ms: float  # m/s
-    velocity_kmh: float  # km/h
 
 
 def fzj_weather_crawler():
@@ -24,13 +22,11 @@ def fzj_weather_crawler():
     crawled_weather_data = fzj_weather.get_weather_data(
         machine_read=True).splitlines()
     weather_return = Weather(
-        temperature=crawled_weather_data[0],
-        air_pressure=crawled_weather_data[1],
-        humidity=crawled_weather_data[2],
-        wind_power=crawled_weather_data[3],
-        wind_direction=crawled_weather_data[4],
-        velocity_ms=crawled_weather_data[5],
-        velocity_kmh=crawled_weather_data[6],
+        temperature=crawled_weather_data['Lufttemperatur'],
+        air_pressure=crawled_weather_data['Luftdruck (92 m ü.N.N.)'],
+        humidity=crawled_weather_data['relative Feuchte'],
+        wind_power=crawled_weather_data['Windstärke'],
+        wind_direction=crawled_weather_data['Windrichtung']
     )
     return weather_return
 
