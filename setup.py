@@ -10,11 +10,15 @@ setup(
     author_email='o.druska@fz-juelich.de',
     packages=find_packages(),
     license='ISC',
-    install_requires=['requests', 'BeautifulSoup4'],
+    install_requires=[
+        'requests',
+        'BeautifulSoup4',
+        'prometheus_client'
+    ],
     python_requires=">=3.6",
     entry_points={
         'console_scripts': [
-            'export_main=fzj-weather-prometheus-exporter/main.py:main'
+            'weather=fzj_weather_prometheus_exporter.main:main'
         ],
     },
 
