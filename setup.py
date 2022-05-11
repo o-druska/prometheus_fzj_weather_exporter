@@ -18,7 +18,7 @@ setup(
     python_requires=">=3.6",
     entry_points={
         'console_scripts': [
-            'weather=fzj_weather_prometheus_exporter.main:main'
+            'fzj_weather_exporter=fzj_weather_prometheus_exporter.main:main'
         ],
     },
 
