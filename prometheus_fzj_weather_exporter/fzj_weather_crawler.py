@@ -4,7 +4,7 @@
 # For further information look up LICENSE.txt
 
 from dataclasses import dataclass
-from fzj_weather_prometheus_exporter import fzj_weather
+import fzj_weather
 
 
 @dataclass
@@ -22,11 +22,11 @@ def fzj_weather_crawler():
     crawled_weather_data = fzj_weather.get_weather_data()
 
     weather_return = Weather(
-        temperature=crawled_weather_data['Lufttemperatur'],
-        air_pressure=crawled_weather_data['Luftdruck (92 m ü.N.N.)'],
-        humidity=crawled_weather_data['relative Feuchte'],
-        wind_power=crawled_weather_data['Windstärke'],
-        wind_direction=crawled_weather_data['Windrichtung']
+        temperature=float(crawled_weather_data['Lufttemperatur']),
+        air_pressure=float(crawled_weather_data['Luftdruck (92 m ü.N.N.)']),
+        humidity=int(crawled_weather_data['relative Feuchte']),
+        wind_power=int(crawled_weather_data['Windstärke']),
+        wind_direction=int(crawled_weather_data['Windrichtung'])
     )
     return weather_return
 

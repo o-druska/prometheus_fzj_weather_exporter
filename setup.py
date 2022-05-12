@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='fzj_weather_prometheus_exporter',
+    name='prometheus_fzj_weather_exporter',
     version='0.0.1',
     description='prometheus exporter for weather data from FZJ',
     author='Oskar Druska',
@@ -18,7 +18,7 @@ setup(
     python_requires=">=3.6",
     entry_points={
         'console_scripts': [
-            'fzj_weather_exporter=fzj_weather_prometheus_exporter.main:main'
+            'prometheus_fzj_weather_exporter=prometheus_fzj_weather_exporter.main:main'
         ],
     },
 

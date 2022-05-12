@@ -17,7 +17,7 @@
 import argparse
 import time
 from prometheus_client import start_http_server, REGISTRY
-from fzj_weather_prometheus_exporter import exporter_file
+import exporter_file
 
 
 def main():

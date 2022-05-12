@@ -5,7 +5,7 @@ from pathlib import Path
 class Configuration:
     def __init__(self):
         self._home = str(Path.home())
-        self._weather_exporter_dir = opj(self._home, '.fzj_weather_prometheus_exporter')
+        self._weather_exporter_dir = opj(self._home, '.prometheus_fzj_weather_exporter')
 
 
 __params__ = Configuration()
