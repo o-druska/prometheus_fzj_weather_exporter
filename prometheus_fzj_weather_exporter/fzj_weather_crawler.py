@@ -4,7 +4,7 @@
 # For further information look up LICENSE.txt
 
 from dataclasses import dataclass
-import fzj_weather
+from . import fzj_weather
 
 
 @dataclass

@@ -6,7 +6,7 @@
 from prometheus_client import Summary
 from prometheus_client.core import GaugeMetricFamily
 
-import fzj_weather_crawler
+from . import fzj_weather_crawler
 
 REQUEST_TIME = Summary("weather_exporter_collect_seconds",
                        "Time spent to collect metrics from fzj_weather.py")
