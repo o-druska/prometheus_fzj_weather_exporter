@@ -22,12 +22,9 @@ Installing and starting can be tested already.
 
 # Testing:
 To test the exporter, you can host the script on your own machine:
-  1. `python3 main.py`
+  1. `prometheus_fzj_weather_exporter`
   2. (from another terminal) `curl 127.0.0.1:9840`
-Alternatively: install the exporter via pip (see above); then start using `prometheus_fzj_weather_exporter`
-
-The default port in the script is 9840.
-Change the port with `python3 main.py --port xxxx`
+  
 Running `curl 127.0.0.1:9840` should give you an output of similar 
 structure like this:
 ```
@@ -35,5 +32,7 @@ structure like this:
 # TYPE fzj_weather_air_temperature gauge
 fzj_weather_air_temperature 14.0
 ```
+The default port in the script is 9840.
+Change the port with `prometheus_fzj_weather_exporter --port <port>`
 
 (The output should be similar for other data points, i.e. humidity)
